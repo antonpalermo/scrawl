@@ -1,12 +1,11 @@
 import React from "react"
 import { api } from "@scrawl/server/api"
+import CreateNotes from "@scrawl/components/Create"
 
 export default function Home() {
-  const { data, isLoading } = api.notes.secret.useQuery()
-
-  if (isLoading) {
-    return <h1>Loading...</h1>
-  }
-
-  return <h1>{JSON.stringify(data)}</h1>
+  return (
+    <main>
+      <CreateNotes />
+    </main>
+  )
 }

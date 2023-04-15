@@ -48,6 +48,7 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  notes         Note[]
 
   @@index([id, email])
   @@map("users")
@@ -64,6 +65,9 @@ model VerificationToken {
 
 model Note {
   id          String   @id @unique @default(cuid())
+  name        String
+  owner       User     @relation(fields: [ownerId], references: [id])
+  ownerId     String   @map("userId")
   createdDate DateTime @default(now())
   updatedDate DateTime @updatedAt
 
