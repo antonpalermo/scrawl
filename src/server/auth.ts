@@ -1,4 +1,5 @@
-import type { NextAuthOptions } from "next-auth"
+import { NextAuthOptions, getServerSession } from "next-auth"
+import type { GetServerSidePropsContext } from "next"
 
 import GoogleProvider from "next-auth/providers/google"
 
@@ -20,4 +21,14 @@ export const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt"
   }
+}
+
+export const getServerAuthSession = async ({
+  req,
+  res
+}: {
+  req: GetServerSidePropsContext["req"]
+  res: GetServerSidePropsContext["res"]
+}) => {
+  return await getServerSession(req, res, authOptions)
 }
