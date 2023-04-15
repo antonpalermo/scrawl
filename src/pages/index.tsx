@@ -2,7 +2,7 @@ import React from "react"
 import { api } from "@scrawl/server/api"
 
 export default function Home() {
-  const { data, isLoading } = api.notes.hello.useQuery()
+  const { data, isLoading } = api.notes.secret.useQuery()
 
   if (isLoading) {
     return <h1>Loading...</h1>
