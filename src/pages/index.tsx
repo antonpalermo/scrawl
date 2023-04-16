@@ -1,6 +1,6 @@
 import React from "react"
-import CreateNotes from "@scrawl/components/Create"
 import Notes from "@scrawl/components/Notes"
+import CreateNotes from "@scrawl/components/Create"
 
 export default function Home() {
   return (
@@ -8,5 +8,5 @@ export default function Home() {
       <CreateNotes />
       <Notes />
     </main>
-  ) 
+  )
 }

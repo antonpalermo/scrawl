@@ -68,8 +68,20 @@ model Note {
   name        String
   owner       User     @relation(fields: [ownerId], references: [id])
   ownerId     String   @map("userId")
+  context     Context?
+  contextId   String
   createdDate DateTime @default(now())
   updatedDate DateTime @updatedAt
 
   @@map("notes")
+}
+
+model Context {
+  id          String   @id @unique @default(cuid())
+  raw         Json
+  body        String
+  note        Note     @relation(fields: [noteId], references: [id])
+  noteId      String   @unique
+  createdDate DateTime @default(now())
+  updatedDate DateTime @updatedAt
 }

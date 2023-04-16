@@ -1,6 +1,7 @@
 import { api } from "@scrawl/server/api"
 import { useSession } from "next-auth/react"
-import { useCallback } from "react"
+
+import Link from "next/link"
 
 export default function Notes() {
   const { status } = useSession()
@@ -14,13 +15,15 @@ export default function Notes() {
 
   if (loadingNotes) {
     return <h1>Loading...</h1>
-  }
+  }``
 
   return (
     <ul>
       {notes.map(note => (
         <li key={note.id}>
-          <a href="#">{note.name}</a>
+          <Link href={{ pathname: "/note/[id]", query: { id: note.id } }}>
+            {note.name}
+          </Link>
         </li>
       ))}
     </ul>
