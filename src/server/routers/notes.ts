@@ -3,7 +3,6 @@ import { z } from "zod"
 import { Prisma } from "@prisma/client"
 import { TRPCError } from "@trpc/server"
 import { createTRPCRouter, protectedProcedure } from "@scrawl/server/trpc"
-import { prisma } from "../prisma"
 
 const notesRouter = createTRPCRouter({
   create: protectedProcedure
@@ -12,7 +11,11 @@ const notesRouter = createTRPCRouter({
       const email = ctx.session.user.email
       try {
         return await ctx.prisma.note.create({
-          data: { name, owner: { connect: { email } } }
+          data: {
+            name,
+            owner: { connect: { email } },
+            context: { create: {} }
+          }
         })
       } catch (e) {
         if (e instanceof Prisma.PrismaClientKnownRequestError) {
@@ -25,7 +28,7 @@ const notesRouter = createTRPCRouter({
     const email = ctx.session.user.email
 
     try {
-      const notes = await prisma.note.findMany({
+      const notes = await ctx.prisma.note.findMany({
         where: { owner: { email } },
         orderBy: [{ createdDate: "asc" }]
       })

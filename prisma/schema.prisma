@@ -69,7 +69,6 @@ model Note {
   owner       User     @relation(fields: [ownerId], references: [id])
   ownerId     String   @map("userId")
   context     Context?
-  contextId   String
   createdDate DateTime @default(now())
   updatedDate DateTime @updatedAt
 
@@ -78,10 +77,12 @@ model Note {
 
 model Context {
   id          String   @id @unique @default(cuid())
-  raw         Json
-  body        String
+  raw         Json     @default("{\"type\":\"doc\",\"content\":[]}")
+  body        String   @default("")
   note        Note     @relation(fields: [noteId], references: [id])
   noteId      String   @unique
   createdDate DateTime @default(now())
   updatedDate DateTime @updatedAt
+
+  @@map("contexts")
 }
