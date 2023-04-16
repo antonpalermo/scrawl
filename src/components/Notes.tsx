@@ -15,13 +15,13 @@ export default function Notes() {
 
   if (loadingNotes) {
     return <h1>Loading...</h1>
-  }``
+  }
 
   return (
     <ul>
       {notes.map(note => (
         <li key={note.id}>
-          <Link href={{ pathname: "/note/[id]", query: { id: note.id } }}>
+          <Link href={{ pathname: "/notes/[id]", query: { id: note.id } }}>
             {note.name}
           </Link>
         </li>

@@ -41,7 +41,32 @@ const notesRouter = createTRPCRouter({
         throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" })
       }
     }
-  })
+  }),
+
+  getNote: protectedProcedure
+    .input(z.object({ noteId: z.string().min(1) }))
+    .query(async ({ ctx, input }) => {
+      try {
+        const note = ctx.prisma.note.findUnique({
+          where: { id: input.noteId },
+          include: {
+            context: {
+              select: {
+                body: true,
+                raw: true,
+                createdDate: true,
+                updatedDate: true
+              }
+            }
+          }
+        })
+        return note
+      } catch (e) {
+        if (e instanceof Prisma.PrismaClientKnownRequestError) {
+          throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" })
+        }
+      }
+    })
 })
 
 export default notesRouter
