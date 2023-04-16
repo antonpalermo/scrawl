@@ -13,11 +13,13 @@ export default function CreateNotes() {
   const initialData: NoteFields = {
     name: ""
   }
+  const ctx = api.useContext()
 
   const { mutateAsync } = api.notes.create.useMutation({
     onSuccess: data => {
       // TODO: add react-hot-toast here!
       console.log("Success!", data)
+      ctx.notes.invalidate()
     }
   })
 

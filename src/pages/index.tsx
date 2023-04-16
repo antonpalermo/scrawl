@@ -1,11 +1,12 @@
 import React from "react"
-import { api } from "@scrawl/server/api"
 import CreateNotes from "@scrawl/components/Create"
+import Notes from "@scrawl/components/Notes"
 
 export default function Home() {
   return (
     <main>
       <CreateNotes />
+      <Notes />
     </main>
-  )
+  ) 
 }
