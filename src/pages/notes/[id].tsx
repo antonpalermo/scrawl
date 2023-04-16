@@ -10,7 +10,7 @@ export default function NoteContents() {
   const { status } = useSession()
   const [edit, setEdit] = useState<boolean>(false)
 
-  const { data: note, isLoading } = api.notes.getNote.useQuery(
+  const { data: note, isLoading } = api.notes.getById.useQuery(
     { noteId: `${router.query.id}` },
     { enabled: status !== "unauthenticated", staleTime: 5 * 60 * 1000 }
   )

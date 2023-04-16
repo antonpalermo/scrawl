@@ -43,7 +43,7 @@ const notesRouter = createTRPCRouter({
     }
   }),
 
-  getNote: protectedProcedure
+  getById: protectedProcedure
     .input(z.object({ noteId: z.string().min(1) }))
     .query(async ({ ctx, input }) => {
       try {
@@ -60,6 +60,11 @@ const notesRouter = createTRPCRouter({
             }
           }
         })
+
+        if (!note) {
+          throw new TRPCError({ code: "NOT_FOUND" })
+        }
+
         return note
       } catch (e) {
         if (e instanceof Prisma.PrismaClientKnownRequestError) {
