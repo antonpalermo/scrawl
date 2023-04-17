@@ -1,16 +1,16 @@
-import React, { useState } from "react"
+import React, { ReactElement, useState } from "react"
 import { JSONContent } from "@tiptap/react"
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next"
 import { createServerSideHelpers } from "@trpc/react-query/server"
 
 import { api } from "@scrawl/server/api"
-import { prisma } from "@scrawl/server/prisma"
 import { appRouter } from "@scrawl/server/root"
 import { getServerAuthSession } from "@scrawl/server/auth"
+import { createInnerTRPCContext } from "@scrawl/server/trpc"
 
 import SuperJSON from "superjson"
+import Layout from "@scrawl/components/Layout"
 import Content from "@scrawl/components/Content"
-import { createInnerTRPCContext, createTRPCContext } from "@scrawl/server/trpc"
 
 export async function getServerSideProps({
   req,
@@ -60,4 +60,8 @@ export default function NoteContents({
       <Content editable={edit} content={note.context.raw as JSONContent} />
     </div>
   )
+}
+
+NoteContents.getLayout = function (page: ReactElement) {
+  return <Layout title="Home">{page}</Layout>
 }

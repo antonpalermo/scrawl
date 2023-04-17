@@ -1,12 +1,10 @@
-import React from "react"
-import Notes from "@scrawl/components/Notes"
-import CreateNotes from "@scrawl/components/Create"
+import Layout from "@scrawl/components/Layout"
+import React, { ReactElement } from "react"
 
 export default function Home() {
-  return (
-    <main>
-      <CreateNotes />
-      <Notes />
-    </main>
-  )
+  return <h1>Home</h1>
+}
+
+Home.getLayout = function (page: ReactElement) {
+  return <Layout title="Home">{page}</Layout>
 }
