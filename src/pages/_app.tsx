@@ -5,6 +5,8 @@ import { SessionProvider } from "next-auth/react"
 import { api } from "@scrawl/server/api"
 import { NextPage } from "next"
 
+import "@scrawl/styles/globals.css"
+
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode
 }
