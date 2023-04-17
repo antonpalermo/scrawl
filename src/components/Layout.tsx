@@ -4,6 +4,7 @@ import type { HTMLAttributes } from "react"
 
 import Notes from "@scrawl/components/Notes"
 import CreateNotes from "@scrawl/components/Create"
+import Sidebar from "@scrawl/components/Sidebar"
 
 export interface LayoutProps extends HTMLAttributes<HTMLDivElement> {
   title?: string
@@ -14,10 +15,11 @@ export default function Layout({ title, ...props }: LayoutProps) {
     <>
       <Head>{title}</Head>
       <main>
-        <CreateNotes />
-        <Link href={{ pathname: "/" }}>Home</Link>
-        <Notes />
-        <div {...props} />
+        <Sidebar />
+        <div
+          className="px-10 w-full fixed overflow-y-auto left-64"
+          {...props}
+        />
       </main>
     </>
   )

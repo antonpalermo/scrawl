@@ -18,13 +18,15 @@ export default function Notes() {
   }
 
   return (
-    <ul>
+    <ul className="space-y-3">
       {notes.map(note => (
-        <li key={note.id}>
-          <Link href={{ pathname: "/notes/[id]", query: { id: note.id } }}>
-            {note.name}
-          </Link>
-        </li>
+        <Link
+          key={note.id}
+          href={{ pathname: "/notes/[id]", query: { id: note.id } }}
+          className="block bg-gray-200 hover:bg-gray-300 rounded px-3 py-2 text-sm font-medium"
+        >
+          {note.name}
+        </Link>
       ))}
     </ul>
   )
