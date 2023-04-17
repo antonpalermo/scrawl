@@ -6,6 +6,7 @@ import { api } from "@scrawl/server/api"
 import { NextPage } from "next"
 
 import "@scrawl/styles/globals.css"
+import DialogProvider from "@scrawl/components/DialogProvider"
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode
@@ -23,7 +24,7 @@ function MainApp({
 
   return (
     <SessionProvider session={session}>
-      {getLayout(<Component {...props} />)}
+      <DialogProvider>{getLayout(<Component {...props} />)}</DialogProvider>
     </SessionProvider>
   )
 }
