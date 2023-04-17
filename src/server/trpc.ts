@@ -12,7 +12,7 @@ type CreateContextOptions = {
   session: Session | null
 }
 
-const createInnerTRPCContext = ({ session }: CreateContextOptions) => {
+export const createInnerTRPCContext = ({ session }: CreateContextOptions) => {
   return {
     session,
     prisma

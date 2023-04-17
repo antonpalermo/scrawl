@@ -44,11 +44,11 @@ const notesRouter = createTRPCRouter({
   }),
 
   getById: protectedProcedure
-    .input(z.object({ noteId: z.string().min(1) }))
-    .query(async ({ ctx, input }) => {
+    .input(z.string().min(1))
+    .query(async ({ ctx, input: id }) => {
       try {
         const note = ctx.prisma.note.findUnique({
-          where: { id: input.noteId },
+          where: { id },
           include: {
             context: {
               select: {

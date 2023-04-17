@@ -1,23 +1,55 @@
 import React, { useState } from "react"
-import Content from "@scrawl/components/Content"
-import { useRouter } from "next/router"
-import { api } from "@scrawl/server/api"
 import { JSONContent } from "@tiptap/react"
-import { useSession } from "next-auth/react"
+import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next"
+import { createServerSideHelpers } from "@trpc/react-query/server"
 
-export default function NoteContents() {
-  const router = useRouter()
-  const { status } = useSession()
-  const [edit, setEdit] = useState<boolean>(false)
+import { api } from "@scrawl/server/api"
+import { prisma } from "@scrawl/server/prisma"
+import { appRouter } from "@scrawl/server/root"
+import { getServerAuthSession } from "@scrawl/server/auth"
 
-  const { data: note, isLoading } = api.notes.getById.useQuery(
-    { noteId: `${router.query.id}` },
-    { enabled: status !== "unauthenticated", staleTime: 5 * 60 * 1000 }
-  )
+import SuperJSON from "superjson"
+import Content from "@scrawl/components/Content"
+import { createInnerTRPCContext, createTRPCContext } from "@scrawl/server/trpc"
 
-  if (isLoading) {
-    return <h1>Loading</h1>
+export async function getServerSideProps({
+  req,
+  res,
+  params
+}: GetServerSidePropsContext) {
+  const session = await getServerAuthSession({ req, res })
+  const helpers = createServerSideHelpers({
+    router: appRouter,
+    transformer: SuperJSON,
+    ctx: createInnerTRPCContext({ session })
+  })
+  const noteId = params?.id as string
+
+  await helpers.notes.getById.prefetch(noteId)
+  const note = await helpers?.notes.getById.fetch(noteId)
+
+  if (!note) {
+    return {
+      props: {},
+      notFound: true
+    }
   }
+
+  return {
+    props: {
+      trpcState: helpers.dehydrate(),
+      noteId
+    }
+  }
+}
+
+export default function NoteContents({
+  noteId
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const [edit, setEdit] = useState<boolean>(false)
+  const { data: note } = api.notes.getById.useQuery(noteId, {
+    staleTime: 5 * 60 * 1000
+  })
 
   return (
     <div>
