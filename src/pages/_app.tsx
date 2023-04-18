@@ -7,6 +7,7 @@ import { NextPage } from "next"
 
 import "@scrawl/styles/globals.css"
 import DialogProvider from "@scrawl/components/DialogProvider"
+import { Toaster } from "react-hot-toast"
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode
@@ -24,7 +25,10 @@ function MainApp({
 
   return (
     <SessionProvider session={session}>
-      <DialogProvider>{getLayout(<Component {...props} />)}</DialogProvider>
+      <DialogProvider>
+        <Toaster />
+        {getLayout(<Component {...props} />)}
+      </DialogProvider>
     </SessionProvider>
   )
 }

@@ -4,12 +4,15 @@ import { api } from "@scrawl/server/api"
 import { Formik, Form, FormikHelpers } from "formik"
 
 import Input from "@scrawl/components/Input"
+import { useDialog } from "./DialogProvider"
+import { toast } from "react-hot-toast"
 
 interface NoteFields {
   name: string
 }
 
 export default function CreateNotes() {
+  const { toggle } = useDialog()
   const initialData: NoteFields = {
     name: ""
   }
@@ -17,9 +20,9 @@ export default function CreateNotes() {
 
   const { mutateAsync } = api.notes.create.useMutation({
     onSuccess: data => {
-      // TODO: add react-hot-toast here!
-      console.log("Success!", data)
+      toast.success("Notes created successfuly!")
       ctx.notes.invalidate()
+      toggle(val => !val)
     }
   })
 
