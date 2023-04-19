@@ -52,11 +52,13 @@ export default function NoteContents({
   })
 
   return (
-    <div>
-      <button onClick={() => setEdit(prev => !prev)}>
-        {edit ? "save" : "edit"}
-      </button>
-      <h1>{note.name}</h1>
+    <div className="my-10 px-10">
+      <div className="w-[650px] inline-flex items-center justify-between mb-5">
+        <h1 className="font-bold text-slate-900 text-4xl">{note.name}</h1>
+        <button onClick={() => setEdit(prev => !prev)}>
+          {edit ? "save" : "edit"}
+        </button>
+      </div>
       <Content editable={edit} content={note.context.raw as JSONContent} />
     </div>
   )

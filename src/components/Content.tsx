@@ -10,9 +10,20 @@ export interface ContentProps {
 
 export default function Content({ editable, content }: ContentProps) {
   const editor = useEditor({
-    extensions: [StarterKit],
+    extensions: [
+      StarterKit.configure({
+        heading: {
+          levels: [2]
+        }
+      })
+    ],
     editable,
-    content
+    content,
+    editorProps: {
+      attributes: {
+        class: "prose focus:outline-none"
+      }
+    }
   })
 
   useEffect(() => {
