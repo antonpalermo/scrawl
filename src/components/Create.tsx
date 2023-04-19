@@ -6,6 +6,7 @@ import { Formik, Form, FormikHelpers } from "formik"
 import Input from "@scrawl/components/Input"
 import { useDialog } from "./DialogProvider"
 import { toast } from "react-hot-toast"
+import { useRouter } from "next/router"
 
 interface NoteFields {
   name: string
@@ -17,12 +18,20 @@ export default function CreateNotes() {
     name: ""
   }
   const ctx = api.useContext()
+  const router = useRouter()
 
   const { mutateAsync } = api.notes.create.useMutation({
     onSuccess: data => {
-      toast.success("Notes created successfuly!")
       ctx.notes.invalidate()
+
       toggle(val => !val)
+
+      router.push({
+        pathname: "/notes/[id]",
+        query: { id: data.id }
+      })
+
+      toast.success("Notes created successfuly!")
     }
   })
 
@@ -37,16 +46,24 @@ export default function CreateNotes() {
     <Formik initialValues={initialData} onSubmit={onSubmit}>
       {({ values, handleChange, isSubmitting }) => (
         <Form>
-          <div>
-            <label>Name</label>
+          <div className="my-3">
+            <label className="block text-sm text-slate-500 font-semibold mb-2">
+              Name
+            </label>
             <Input
               id="name"
               name="name"
+              type="text"
+              autoComplete="off"
               value={values.name}
               onChange={handleChange}
             />
           </div>
-          <button type="submit" disabled={isSubmitting}>
+          <button
+            className="bg-indigo-200 text-indigo-600 px-3 py-2 text-sm font-medium rounded float-right"
+            type="submit"
+            disabled={isSubmitting}
+          >
             Create
           </button>
         </Form>
