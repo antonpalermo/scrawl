@@ -11,6 +11,7 @@ import { createInnerTRPCContext } from "@scrawl/server/trpc"
 import SuperJSON from "superjson"
 import Layout from "@scrawl/components/Layout"
 import Content from "@scrawl/components/Content"
+import Head from "next/head"
 
 export async function getServerSideProps({
   req,
@@ -52,18 +53,23 @@ export default function NoteContents({
   })
 
   return (
-    <div className="my-10 px-10">
-      <div className="w-[650px] inline-flex items-center justify-between mb-5">
-        <h1 className="font-bold text-slate-900 text-4xl">{note.name}</h1>
-        <button onClick={() => setEdit(prev => !prev)}>
-          {edit ? "save" : "edit"}
-        </button>
+    <>
+      <Head>
+        <title>{note.name}</title>
+      </Head>
+      <div className="my-10 px-10">
+        <div className="w-[650px] inline-flex items-center justify-between mb-5">
+          <h1 className="font-bold text-slate-900 text-4xl">{note.name}</h1>
+          <button onClick={() => setEdit(prev => !prev)}>
+            {edit ? "save" : "edit"}
+          </button>
+        </div>
+        <Content editable={edit} content={note.context.raw as JSONContent} />
       </div>
-      <Content editable={edit} content={note.context.raw as JSONContent} />
-    </div>
+    </>
   )
 }
 
 NoteContents.getLayout = function (page: ReactElement) {
-  return <Layout title="Home">{page}</Layout>
+  return <Layout>{page}</Layout>
 }

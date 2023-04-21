@@ -15,7 +15,9 @@ export interface LayoutProps extends HTMLAttributes<HTMLDivElement> {
 export default function Layout({ title, ...props }: LayoutProps) {
   return (
     <>
-      <Head>{title}</Head>
+      <Head>
+        <title>{title}</title>
+      </Head>
       <main>
         <Sidebar />
         <CreateDialog />
