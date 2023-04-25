@@ -3,7 +3,7 @@ import "@scrawl/styles/globals.css"
 import { Inter } from "next/font/google"
 
 export const metadata = {
-  title: "Home",
+  title: "Home - Scrawl",
   description: "Welcome to Scrawl - your typical notes for devs"
 }
 
