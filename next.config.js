@@ -10,9 +10,6 @@ const config = {
   },
   images: {
     domains: ["lh3.googleusercontent.com"]
-  },
-  experimental: {
-    appDir: true
   }
 }
 
