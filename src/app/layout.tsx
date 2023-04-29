@@ -35,7 +35,9 @@ export default async function RootLayout({
                 {scratches.map(scratch => (
                   <Link
                     key={scratch.id}
-                    href={{ pathname: "/" }}
+                    href={{
+                      pathname: `/scratches/${scratch.id}`
+                    }}
                     className="block px-2 py-2 bg-gray-200 rounded text-sm font-medium"
                   >
                     {scratch.name}
@@ -44,7 +46,7 @@ export default async function RootLayout({
               </nav>
             </div>
           </div>
-          <div className="fixed left-60 inset-y-0 right-0 overflow-y-auto">
+          <div className="fixed left-60 inset-y-0 right-0 overflow-y-auto mx-10">
             {children}
           </div>
         </main>
